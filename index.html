@@ -5,7 +5,7 @@
 <head>
 
   <meta charset="UTF-8">
-  <title>Employee Tracker</title>
+  <title>Train Schedule</title>
 
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -22,18 +22,24 @@
     #employee-table th,
     td {
       display: inline-block;
-      width: 16.575%;
+      width: 19%;
+      text-align: center;
+    }
+
+    .jumbotron {
+      background-color: black; 
+      color: white; 
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Employee Tracker -->
+  <!-- Train Schedule -->
   <div class="container">
 
     <!-- Jumbotron -->
-    <div class="jumbotron" style="background-color: black; color: white">
+    <div class="jumbotron" >
       <h1 class="text-center">Anytime is Train Time</h1>
       <h3 class="text-center">Choo Choo. Chee Chee.</h3>
     </div>
@@ -42,7 +48,7 @@
 
       <div class="col-md-12">
 
-        <!-- Current Employees-->
+        <!-- Train=Schedule-->
         <div class="card mb-4">
           <div class="card-header">Current Train Schedule</div>
           <div class="card-body">
@@ -66,9 +72,9 @@
 
     <div class="row">
       <div class="col-md-12">
-        <!-- Add Employee  -->
+        <!-- Add Train  -->
         <div class="card mb-4">
-          <div class="card-header">Add Employee</div>
+          <div class="card-header">Add Train</div>
           <div class="card-body">
 
             <!-- Entry Form -->
@@ -89,7 +95,7 @@
                 <label for="frequency-input">Frequency (min)</label>
                 <input class="form-control" id="frequency-input" placeholder="Enter frequency here..." type="text">
               </div>
-              <button class="btn btn-primary float-right" id="add-employee-btn">Submit</button>
+              <button class="btn btn-primary float-right" id="add-train-btn">Submit</button>
             </form>
 
           </div>

@@ -13,14 +13,16 @@ firebase.initializeApp(config);
 var database = firebase.database();
 
 // 2. Button for adding Trains
-$("#add-employee-btn").on("click", function(event) {
+$("#add-train-btn").on("click", function(event) {
   event.preventDefault();
 
   // Grabs user input
   var trainName = $("#train-name-input").val().trim();
   var trainDest = $("#destination-input").val().trim();
-  var trainTime = moment($("#time-input").val().trim(), "MM/DD/YYYY").format("X");
+  var trainTime = moment($("#time-input").val().trim(), "hh:mm").format("x");
   var trainFreq = $("#frequency-input").val().trim();
+
+  console.log(trainTime);
 
   // Creates local "temporary" object for holding employee data
   var newTrain = {
@@ -48,41 +50,30 @@ $("#add-employee-btn").on("click", function(event) {
   $("#frequency-input").val("");
 });
 
-// 3. Create Firebase event for adding employee to the database and a row in the html when a user adds an entry
+// Firebase event
 database.ref().on("child_added", function(childSnapshot) {
   console.log(childSnapshot.val());
 
   // Store everything into a variable.
-  var empName = childSnapshot.val().name;
-  var empRole = childSnapshot.val().role;
-  var empStart = childSnapshot.val().start;
-  var empRate = childSnapshot.val().rate;
+  var trainName = childSnapshot.val().name;
+  var trainDest = childSnapshot.val().dest;
+  var trainStart = childSnapshot.val().time;
+  var trainRate = childSnapshot.val().freq;
 
-  // Employee Info
-  console.log(empName);
-  console.log(empRole);
-  console.log(empStart);
-  console.log(empRate);
+  // Calculate train times
+  var diffTime = moment().diff(moment(trainStart, "X"), "minutes");
+  var trainRemainder = diffTime % trainRate;
+  var minsAway = trainRate - trainRemainder;
+  var nextArrive = moment().add(minsAway, "minutes").format("hh:mm a");
 
-  // Prettify the employee start
-  var empStartPretty = moment.unix(empStart).format("MM/DD/YYYY");
 
-  // Calculate the months worked using hardcore math
-  // To calculate the months worked
-  var empMonths = moment().diff(moment(empStart, "X"), "months");
-  console.log(empMonths);
-
-  // Calculate the total billed rate
-  var empBilled = empMonths * empRate;
-  console.log(empBilled);
-
-  // Create the new row
+  //append data to train table
   var newRow = $("<tr>").append(
-    $("<td>").text(empName),
-    $("<td>").text(empRole),
-    $("<td>").text(empMonths),
-    $("<td>").text(empRate),
-    $("<td>").text(empBilled)
+    $("<td>").text(trainName),
+    $("<td>").text(trainDest),
+    $("<td>").text(trainRate),
+    $("<td>").text(nextArrive),
+    $("<td>").text(minsAway)
   );
 
   // Append the new row to the table
