@@ -12,7 +12,7 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
-// 2. Button for adding Trains
+// 2. Button for adding trains
 $("#add-train-btn").on("click", function(event) {
   event.preventDefault();
 
@@ -21,8 +21,6 @@ $("#add-train-btn").on("click", function(event) {
   var trainDest = $("#destination-input").val().trim();
   var trainTime = moment($("#time-input").val().trim(), "hh:mm").format("x");
   var trainFreq = $("#frequency-input").val().trim();
-
-  console.log(trainTime);
 
   // Creates local "temporary" object for holding employee data
   var newTrain = {
@@ -35,12 +33,7 @@ $("#add-train-btn").on("click", function(event) {
   // Uploads employee data to the database
   database.ref().push(newTrain);
 
-  // Logs everything to console
-  console.log(newTrain.name);
-  console.log(newTrain.dest);
-  console.log(newTrain.time);
-  console.log(newTrain.freq);
-
+  // Alerts the user that the train info has been added to the table 
   alert("Train successfully added");
 
   // Clears all of the text-boxes
@@ -52,7 +45,6 @@ $("#add-train-btn").on("click", function(event) {
 
 // Firebase event
 database.ref().on("child_added", function(childSnapshot) {
-  console.log(childSnapshot.val());
 
   // Store everything into a variable.
   var trainName = childSnapshot.val().name;
@@ -77,5 +69,5 @@ database.ref().on("child_added", function(childSnapshot) {
   );
 
   // Append the new row to the table
-  $("#employee-table > tbody").append(newRow);
+  $("#train-table > tbody").append(newRow);
 });
